@@ -1,6 +1,8 @@
-import { Tiers } from "@/types/globals";
-import { useUser as useClerkUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { useUser as useClerkUser } from "@clerk/nextjs";
+import { Tiers } from "@/types/globals";
+import { tierRank } from "@/constants/user-constants";
+import { updateUser } from "@/services/user-service";
 
 interface UserData {
     id: string;
@@ -32,6 +34,20 @@ export const useUser = () => {
         setLoading(false);
     }, [isLoaded, isSignedIn, user]);
 
+    const updateUserTier = async (tier: Tiers) => {
+        if(!user) return;
+        if (tierRank[tier] <= tierRank[userTier]) return;
+
+        try {            
+            await updateUser({ id: user.id, tier: tier });
+            setUserTier(tier);
+            return tier;
+        } catch (error) {
+            console.error("Failed to update metadata:", error);
+            return false;
+        }
+    }
+
     const updateMetadata = async (metadata: Record<string, unknown>) => {
         if (!user) return;
 
@@ -51,5 +67,6 @@ export const useUser = () => {
         isLoading: loading,
         isAuthenticated: isSignedIn,
         updateMetadata,
+        updateUserTier,
     };
 };

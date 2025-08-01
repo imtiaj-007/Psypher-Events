@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Event } from "@/types/event";
+import { UnauthorizedModal } from "@/components/modals/unauthorized";
 import { fetchEvents } from "@/services/event-service";
 import { useUser } from "@/hooks/use-user";
-import { UnauthorizedModal } from "@/components/modals/unauthorized";
+import { Event } from "@/types/event";
+import UpgradeAlert from "@/components/modals/upgrade-alert";
 
 
 const Events: React.FC = () => {
@@ -33,7 +34,7 @@ const Events: React.FC = () => {
 
     useEffect(() => {
         getEvents();
-    }, []);
+    }, [userTier]);
 
     if (!isAuthenticated) {
         return (
@@ -47,6 +48,8 @@ const Events: React.FC = () => {
     return (
         <div className="w-full max-w-7xl mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-6">Events</h1>
+
+            <UpgradeAlert />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {events.map((event) => (
