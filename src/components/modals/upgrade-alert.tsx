@@ -15,9 +15,12 @@ const UpgradeAlert: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const { userTier, updateUserTier } = useUser();
 
-    const availableTiers = useMemo(() => Object.keys(tierRank).filter(
-        tier => tierRank[tier as Tiers] > tierRank[userTier]
-    ) as Tiers[], [userTier]);
+    const availableTiers = useMemo(() => userTier
+        ? Object.keys(tierRank).filter(
+            tier => tierRank[tier as Tiers] > tierRank[userTier]
+        ) as Tiers[]
+        : null,
+    [userTier]);
 
     const handleUpgrade = async () => {
         if (!selectedTier) return;
@@ -36,15 +39,15 @@ const UpgradeAlert: React.FC = () => {
         }
     };
 
-    if (availableTiers.length === 0) return null;
+    if (!availableTiers || availableTiers.length === 0) return null;
 
     return (
         <div className="relative space-y-4 mb-6">
             <div className="bg-gradient-to-r from-purple-500 to-indigo-500 dark:from-purple-600 dark:to-indigo-700 rounded-lg p-4 shadow-lg">
                 <div className="w-full flex items-center justify-between">
                     <div className='space-y-0.5 text-white'>
-                        <h3 className="font-bold text-lg">Upgrade for more benefits!</h3>
-                        <p className="text-white/90">
+                        <h3 className="font-bold text-base">Upgrade for more benefits!</h3>
+                        <p className="text-white/90 text-sm">
                             Unlock premium features by upgrading your account tier.
                         </p>
                     </div>

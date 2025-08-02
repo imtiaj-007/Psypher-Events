@@ -14,7 +14,7 @@ interface UserData {
 export const useUser = () => {
     const { user, isLoaded, isSignedIn } = useClerkUser();
     const [userData, setUserData] = useState<UserData | null>(null);
-    const [userTier, setUserTier] = useState<Tiers>('free');
+    const [userTier, setUserTier] = useState<Tiers | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export const useUser = () => {
     }, [isLoaded, isSignedIn, user]);
 
     const updateUserTier = async (tier: Tiers) => {
-        if(!user) return;
+        if(!user || !userTier) return;
         if (tierRank[tier] <= tierRank[userTier]) return;
 
         try {            

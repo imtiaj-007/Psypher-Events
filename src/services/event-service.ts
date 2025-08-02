@@ -5,7 +5,7 @@ import { isAxiosError } from "axios"
 
 
 export const fetchEvents = async (
-    tier: Tiers = 'free', search?: string, from?: Date, to?: Date, venue_id?: string
+    tier: Tiers, search?: string, from?: string, to?: string, venue_id?: string
 ): Promise<Event[]> => {
     try {
         const res = await axiosHandler.get(`/events`, {

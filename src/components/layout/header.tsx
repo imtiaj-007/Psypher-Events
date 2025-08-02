@@ -17,7 +17,7 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 export const Header: React.FC = () => {
     return (
-        <header className="w-full flex h-20 backdrop-blur-lg border-b">
+        <header className="w-full flex h-20 backdrop-blur-lg border-b z-10">
             <div className="max-w-7xl w-full m-auto flex items-center justify-between p-4">
                 <div className="logo">
                     <Link
