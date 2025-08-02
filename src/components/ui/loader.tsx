@@ -51,7 +51,7 @@ export const Loader = ({
     return (
         <div 
             className={cn(
-                'w-full h-full min-h-[150px] max-h-[200px] p-4 flex flex-col items-center justify-center gap-4',
+                'w-full h-full p-4 flex flex-col items-center justify-center gap-4',
                 className
             )}
         >

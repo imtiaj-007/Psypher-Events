@@ -6,8 +6,8 @@ export const tierRank = {
 } as const;
 
 export const tierColors = {
-    free: "bg-gray-300 text-black",
-    silver: "bg-silver text-white",
+    free: "bg-black text-white",
+    silver: "bg-gray-200 text-black",
     gold: "bg-yellow-400 text-black",
     platinum: "bg-purple-600 text-white",
 } as const;

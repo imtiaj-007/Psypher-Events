@@ -47,5 +47,5 @@ export const tabConfig: TabsConfig = {
         }
     ],
     defaultActiveKey: 'upcoming',
-    filterKey: 'tabs'
+    filterKey: 'tab'
 };

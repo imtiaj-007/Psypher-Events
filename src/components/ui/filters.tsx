@@ -18,9 +18,7 @@ interface FiltersSectionProps<T> {
     initialValues?: Partial<T>;
     onFilterChange: (filters: Partial<T>) => void;
     debounceTime?: number;
-    tabOptions?: TabsConfig & {
-        filterKey?: string;
-    };
+    tabOptions?: TabsConfig;
     className?: string;
 }
 
@@ -101,7 +99,7 @@ export const FiltersSection = <T extends Record<string, any>>({
                 </Tabs>
             )}
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1 gap-4">
                 {filters.map(filter => {
                     if (filter.hidden) return null;
 

@@ -40,8 +40,8 @@ export interface TabConfig {
 
 export interface TabsConfig {
     tabs: TabConfig[];
+    filterKey: string;
     defaultActiveKey?: string;
-    filterKey?: string;
     onChange?: (activeKey: string) => void;
     className?: string;
     tabListClassName?: string;

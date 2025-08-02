@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Loader } from "@/components/ui/loader";
 import { FiltersSection } from "@/components/ui/filters";
-import UpgradeAlert from "@/components/modals/upgrade-alert";
-import { UnauthorizedModal } from "@/components/modals/unauthorized";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EventCard } from "@/components/cards/event-card";
+import { ErrorComponent } from "@/components/custom/error";
+import UpgradeAlert from "@/components/custom/upgrade-alert";
+import { UnauthorizedModal } from "@/components/custom/unauthorized";
 import { filterConfig, tabConfig } from "@/constants/filter-constants";
 import { getTodayISO, getYesterdayEndISO } from "@/lib/utils";
 import { fetchEvents } from "@/services/event-service";
@@ -116,25 +117,18 @@ const Events: React.FC = () => {
                     {loading ?
                         <Loader variant="grid" message="Loading... Please wait" />
                         : error
-                            ? <div>TODO: error component</div>
-                            :
-                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                {events.map((event) => (
-                                    <Card key={event.id} className="hover:shadow-lg transition-shadow">
-                                        <CardHeader>
-                                            <CardTitle>{event.title}</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-muted-foreground mb-4">{event.description}</p>
-                                            <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-                                                <span>Date: {new Date(event.event_date).toLocaleDateString()}</span>
-                                                <span>Tier: {event.tier}</span>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </div>
-                    }
+                            ? <ErrorComponent />
+                            : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {events.map((event) => (
+                                        <EventCard
+                                            key={event.id}
+                                            data={event}
+                                            pastEvent={filters.tab === 'past'}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                 </div>
             </div>
         </div>
