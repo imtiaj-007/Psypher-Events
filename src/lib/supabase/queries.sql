@@ -79,8 +79,8 @@
    user_can_access_event(
      events.tier, 
      COALESCE(
-       (current_setting('request.jwt.claims', TRUE)::json->>'tier')::tier,
-       'free'::tier
+         NULLIF(TRIM(auth.jwt() ->> 'tier'), '')::tier,
+         'free'::tier
      )
    )
  );
@@ -96,7 +96,7 @@
      AND user_can_access_event(
        events.tier,
        COALESCE(
-         (current_setting('request.jwt.claims', TRUE)::json->>'tier')::tier,
+         NULLIF(TRIM(auth.jwt() ->> 'tier'), '')::tier,
          'free'::tier
        )
      )
@@ -159,7 +159,7 @@ venue_list AS (
 )
 
 -- 14.3 Insert 8 past events
-INSERT INTO events (title, description, event_date, tier, venue_id, external_link, created_at)
+INSERT INTO events (title, description, event_date, thumbnail, tier, venue_id, external_link, created_at)
 SELECT 
   CASE 
     WHEN i <= 2 THEN 'Annual ' || v.name || ' Gala'
@@ -174,6 +174,9 @@ SELECT
     ELSE 'Supporting local community initiatives'
   END as description,
   (NOW() - (i * INTERVAL '2 days') - (random() * INTERVAL '5 days')) as event_date,
+  (ARRAY['/assets/concert-1.jpg', '/assets/concert-2.jpg', '/assets/concert-3.jpg', '/assets/concert-4.jpg', '/assets/event-1.jpg', '/assets/event-2.jpg'])[
+    floor(random() * 6 + 1)::int
+  ] as thumbnail,
   CASE 
     WHEN i % 4 = 0 THEN 'platinum'::tier
     WHEN i % 4 = 1 THEN 'gold'::tier
@@ -197,7 +200,7 @@ venue_list AS (
     ROW_NUMBER() OVER (ORDER BY name) as venue_num
   FROM venue_ids
 )
-INSERT INTO events (title, description, event_date, tier, venue_id, external_link)
+INSERT INTO events (title, description, event_date, thumbnail, tier, venue_id, external_link)
 SELECT 
   CASE 
     WHEN i <= 3 THEN 'Summer ' || v.name || ' Festival'
@@ -212,6 +215,9 @@ SELECT
     ELSE 'Interactive learning sessions for all skill levels'
   END as description,
   (NOW() + (i * INTERVAL '2 days') + (random() * INTERVAL '5 days')) as event_date,
+  (ARRAY['/assets/concert-1.jpg', '/assets/concert-2.jpg', '/assets/concert-3.jpg', '/assets/concert-4.jpg', '/assets/event-1.jpg', '/assets/event-2.jpg'])[
+    floor(random() * 6 + 1)::int
+  ] as thumbnail,
   CASE 
     WHEN i % 4 = 0 THEN 'platinum'::tier
     WHEN i % 4 = 1 THEN 'gold'::tier
@@ -222,9 +228,3 @@ SELECT
   'https://example.com/upcoming-event-' || i as external_link
 FROM generate_series(1, 12) as i
 JOIN venue_list v ON v.venue_num = (i % 10) + 1;
-
-
-
-
-
-
