@@ -12,7 +12,7 @@ export function ThemeToggle() {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="sr-only">
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button variant="outline" size="icon">

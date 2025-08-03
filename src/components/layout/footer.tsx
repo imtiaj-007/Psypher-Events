@@ -5,9 +5,9 @@ import { Github, Instagram, Twitter } from 'lucide-react';
 
 export const Footer: React.FC = () => {
     return (
-        <footer className="py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-6 gap-8">
-                <div className="space-y-4 col-span-1 lg:col-span-3">
+        <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-slate-950/90 border-t border-slate-800 text-white">
+            <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-6 gap-8">
+                <div className="space-y-4 col-span-2 lg:col-span-3">
                     <h3 className="text-xl font-bold">Psypher</h3>
                     <p className="text-sm opacity-80 max-w-md">
                         Psypher is revolutionizing digital interactions through cutting-edge technology and 
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
                 </div>
             </div>
             
-            <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-[#ffffff10] text-sm opacity-70">
+            <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-[#ffffff10] text-center text-sm opacity-70">
                 <p>© {new Date().getFullYear()} Psypher. All rights reserved.</p>
             </div>
         </footer>
