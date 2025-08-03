@@ -12,20 +12,21 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { cn } from "@/lib/utils"
 
 const eventTypes: { title: string; href: string; icon: React.ReactNode }[] = [
     {
-        title: "Concerts",
+        title: "Concert",
         href: "/events",
         icon: <Music className="w-4 h-4" />,
     },
     {
-        title: "Movies",
+        title: "Festival",
         href: "/events",
         icon: <Film className="w-4 h-4" />,
     },
     {
-        title: "Sports",
+        title: "Business Expo",
         href: "/events",
         icon: <Camera className="w-4 h-4" />,
     },
@@ -36,7 +37,7 @@ export const Navbar: React.FC = () => {
         <NavigationMenu viewport={false}>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>Home</NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="bg-transparent hover:bg-gray-900 text-white">Home</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                             <li className="row-span-3">
@@ -49,25 +50,25 @@ export const Navbar: React.FC = () => {
                                             Psypher Events
                                         </div>
                                         <p className="text-muted-foreground text-sm leading-tight">
-                                            Beautifully designed components built with Tailwind CSS.
+                                            Beautifully designed events portal built with shadcn & Tailwind CSS.
                                         </p>
                                     </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <ListItem href="/docs" title="Introduction">
-                                Re-usable components built using Shadcn UI and Tailwind CSS.
+                            <ListItem href="/" title="Events">
+                                Find events, concerts and business expo around the Globe.
                             </ListItem>
-                            <ListItem href="/docs/installation" title="Installation">
-                                How to install dependencies and structure your app.
+                            <ListItem href="/" title="Venues">
+                                List of all popular venues and event ground with details.
                             </ListItem>
-                            <ListItem href="/docs/primitives/typography" title="Typography">
-                                Styles for headings, paragraphs, lists...etc
+                            <ListItem href="/" title="Ticket">
+                                Links, location & complete information about event tickets.
                             </ListItem>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>Events</NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="bg-transparent hover:bg-gray-900 text-white">Events</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                             {eventTypes.map((event) => (
@@ -83,13 +84,13 @@ export const Navbar: React.FC = () => {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                        <Link href="/docs">Venues</Link>
+                    <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), 'bg-transparent text-white')}>
+                        <Link href="/venues">Venues</Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                        <Link href="/docs">My Tickets</Link>
+                    <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), 'bg-transparent text-white')}>
+                        <Link href="/tickets">My Tickets</Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
