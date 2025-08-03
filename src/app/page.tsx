@@ -1,10 +1,39 @@
+/**
+ * @fileoverview Home page for the PsyEvents platform.
+ * @module app/page
+ * 
+ * @remarks
+ * This page serves as the landing page for the PsyEvents application. It features a hero section with a call-to-action,
+ * a countdown timer for an upcoming event, and promotional content to encourage users to explore events.
+ * 
+ * @example
+ * // Usage in Next.js app
+ * import Home from './page';
+ * 
+ * export default function HomePage() {
+ *   return <Home />;
+ * }
+ */
+
 import Link from "next/link";
+import { JSX } from "react";
 import { Button } from "@/components/ui/button";
 import { CountDown } from "@/components/ui/count-down";
 import { ArrowRight } from "lucide-react";
 
-
-export default function Home() {
+/**
+ * Home page component.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered home/landing page.
+ * 
+ * @remarks
+ * - Features a hero section with a background image, headline, and description.
+ * - Includes a prominent "Get Started" button linking to the events page.
+ * - Displays a countdown timer for a featured upcoming event.
+ * - Offers a "Claim Offer" button for free event passes.
+ */
+export default function Home(): JSX.Element {
     return (
         <section className="w-full h-screen bg-[url('/block-bg.jpg')] bg-cover bg-center bg-no-repeat">
             <div className="max-w-7xl w-full mx-auto py-20 flex flex-col items-center justify-center gap-6">
@@ -33,10 +62,17 @@ export default function Home() {
                     <div className="bg-neutral-900/90 border rounded-lg p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <CountDown
+                                /**
+                                 * The eventDate prop is set to two days from the current date, formatted as YYYY-MM-DD.
+                                 */
                                 eventDate={new Date(
                                     Date.now() + 2 * 24 * 60 * 60 * 1000
                                 ).toISOString().split('T')[0]}
-                                eventTime="20:00:00" />
+                                /**
+                                 * The eventTime prop is set to 20:00:00 (8 PM).
+                                 */
+                                eventTime="20:00:00"
+                            />
                             <div className="space-y-1 my-auto">
                                 <div className="flex items-center justify-between">
                                     <div>
