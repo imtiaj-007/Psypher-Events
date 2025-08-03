@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Ghost, Home, Compass } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+
 export default function NotFound() {
     return (
         <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 dark:bg-gray-700/90 p-4">

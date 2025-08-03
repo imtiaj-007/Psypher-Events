@@ -1,3 +1,19 @@
+/**
+ * @fileoverview Events page for displaying, filtering, and browsing events.
+ * @module app/events/page
+ * @remarks
+ * This page is a client-side React component that allows authenticated users to browse, filter, and view events.
+ * It supports filtering by search, date range, venue, and event tier, and separates events into "upcoming" and "past" tabs.
+ * 
+ * @example
+ * // Usage in Next.js app
+ * import Events from './events/page';
+ * 
+ * export default function EventsPage() {
+ *   return <Events />;
+ * }
+ */
+
 'use client'
 
 import { useCallback, useEffect, useState } from "react";
@@ -14,7 +30,16 @@ import { useUser } from "@/hooks/use-user";
 import { Event } from "@/types/event";
 import { debounce } from "lodash";
 
-
+/**
+ * Filters interface for event filtering.
+ * @typedef {Object} Filters
+ * @property {string} [tier] - Event tier filter (free, silver, gold, platinum)
+ * @property {string} [search] - Search query for event title/description
+ * @property {string} [from] - Start date (ISO string)
+ * @property {string} [to] - End date (ISO string)
+ * @property {string} [venue_id] - Venue ID filter
+ * @property {'upcoming'|'past'} [tab] - Tab selection for event time
+ */
 interface Filters {
     tier?: string;
     search?: string;
@@ -24,8 +49,26 @@ interface Filters {
     tab?: 'upcoming' | 'past';
 };
 
+/**
+ * Events page component.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered events page.
+ * 
+ * @remarks
+ * - Only accessible to authenticated users.
+ * - Fetches events based on user tier and filters.
+ * - Shows loader, error, or event cards as appropriate.
+ * - Prompts unauthenticated users to sign in.
+ */
 const Events: React.FC = () => {
+    /**
+     * List of events to display.
+     */
     const [events, setEvents] = useState<Event[]>([]);
+    /**
+     * Current filter state.
+     */
     const [filters, setFilters] = useState<Filters>({
         search: '',
         from: undefined,
@@ -33,11 +76,24 @@ const Events: React.FC = () => {
         venue_id: undefined,
         tab: 'upcoming'
     });
+    /**
+     * Loading state for fetching events.
+     */
     const [loading, setLoading] = useState<boolean>(false);
+    /**
+     * Error message, if any.
+     */
     const [error, setError] = useState<string>('');
 
+    /**
+     * User authentication and tier information.
+     */
     const { isAuthenticated, userTier } = useUser();
 
+    /**
+     * Computes effective date filters based on tab and user input.
+     * @returns {{from?: string, to?: string}} Effective date range for filtering.
+     */
     const getEffectiveDateFilters = useCallback(() => {
         const todayISO = getTodayISO();
         const yesterdayEndISO = getYesterdayEndISO();
@@ -57,6 +113,10 @@ const Events: React.FC = () => {
         }
     }, [filters.tab, filters.from, filters.to]);
 
+    /**
+     * Debounced function to fetch events from the API.
+     * @function
+     */
     const debouncedGetEvents = useCallback(
         debounce(async () => {
             if (!userTier) return;
@@ -80,16 +140,24 @@ const Events: React.FC = () => {
         [filters, userTier, getEffectiveDateFilters]
     );
 
+    /**
+     * Triggers the debounced event fetch.
+     * @function
+     */
     const getEvents = useCallback(() => {
         debouncedGetEvents();
     }, [debouncedGetEvents]);
 
+    /**
+     * Effect to fetch events when filters or user tier change.
+     */
     useEffect(() => {
         if (userTier) {
             getEvents();
         }
     }, [getEvents, userTier]);
 
+    // Show sign-up modal if user is not authenticated
     if (!isAuthenticated) {
         return (
             <UnauthorizedModal
@@ -99,6 +167,7 @@ const Events: React.FC = () => {
         );
     };
 
+    // Main render
     return (
         <div className="w-full max-w-7xl mx-auto px-4 py-8">
             <h1 className="text-xl font-bold mb-6">Events</h1>
